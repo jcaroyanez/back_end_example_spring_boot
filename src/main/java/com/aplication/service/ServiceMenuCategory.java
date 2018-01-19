@@ -34,9 +34,13 @@ public class ServiceMenuCategory implements MenuCategoryImpl {
 	}
 
 	@Override
-	public MenuCategory findOne(Integer id) {
-		
+	public MenuCategory findOne(Integer id) {	
 		return menuCategoryRepository.findOne(id);
+	}
+
+	@Override
+	public MenuCategory findByName(String name) {
+		return menuCategoryRepository.findByName(name);
 	}
 
 }

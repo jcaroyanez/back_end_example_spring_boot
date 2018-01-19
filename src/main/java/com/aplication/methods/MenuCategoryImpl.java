@@ -13,4 +13,6 @@ public interface MenuCategoryImpl {
 	public List<MenuCategory> findAll();
 	
 	public MenuCategory findOne(Integer id);
+	
+	public MenuCategory findByName(String name);
 }

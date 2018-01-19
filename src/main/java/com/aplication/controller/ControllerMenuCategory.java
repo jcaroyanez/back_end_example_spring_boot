@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aplication.entitys.MenuCategory;
 import com.aplication.service.ServiceMenuCategory;
 
+import com.aplication.util.ConsUtil;
+import com.aplication.util.ResponseUtil;
+
 @RestController
 public class ControllerMenuCategory {
      
@@ -25,9 +28,17 @@ public class ControllerMenuCategory {
       MenuCategory menuCategory = new MenuCategory();
       menuCategory.setCategoryName(name);
       menuCategory.setState(0);
-      serviceMenuCategory.createMenuCategory(menuCategory);
-      
-      return new ResponseEntity("Categoria registrada exitosamente ", HttpStatus.OK);  
+      ResponseUtil responseUtil =  new ResponseUtil();
+      MenuCategory menuCategoryAux = serviceMenuCategory.findByName(name);
+      if(menuCategoryAux != null){
+	      responseUtil.setMessage(ConsUtil.MSG_CATEGORY_SAVE_ERROR);
+	      responseUtil.setTipo(ConsUtil.CODE_ERROR);
+      }else{
+	      serviceMenuCategory.createMenuCategory(menuCategory);     
+	      responseUtil.setMessage(ConsUtil.MSG_CATEGORY_SAVE_SUCCESS);
+	      responseUtil.setTipo(ConsUtil.CODE_OK); 		
+      }
+      return new ResponseEntity(responseUtil, HttpStatus.OK);  
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value="/menuCategory/{id}")
